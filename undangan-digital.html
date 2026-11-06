@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="#ff6b9d">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Undangan Pernikahan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            padding-bottom: 70px;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe8f0 50%, #fff0f5 100%);
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 20px;
+            animation: fall linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Music player */
+        .music-player {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .music-player:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.6);
+        }
+
+        .music-player.playing {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Auto-scroll button */
+        .autoscroll-btn {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1001;
+            background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(167, 139, 250, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .autoscroll-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(167, 139, 250, 0.6);
+        }
+
+        .autoscroll-btn.active {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .section {
+            min-height: 100vh;
+            min-height: 100dvh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px 100px;
+            width: 100%;
+        }
+
+        /* Opening Section */
+        #opening {
+            background: linear-gradient(135deg, #ffeef8 0%, #ffd6e8 50%, #ffecf5 100%);
+            background-image: 
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><path d="M0,0 Q300,100 600,50 T1200,100 L1200,800 L0,800 Z" fill="%23ffb3d9" opacity="0.3"/><path d="M0,100 Q400,150 800,100 T1200,150 L1200,800 L0,800 Z" fill="%23ffc2e0" opacity="0.2"/></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .opening-content {
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            animation: fadeInUp 1s ease-out;
+            padding: 0 10px;
+        }
+
+        .arch-frame {
+            width: min(340px, 85vw);
+            height: min(340px, 85vw);
+            margin: 0 auto 30px;
+            background: white;
+            border-radius: 24px;
+            padding: 12px;
+            box-shadow: 0 15px 50px rgba(255, 107, 157, 0.2);
+            position: relative;
+            overflow: hidden;
+            border: 3px solid rgba(255, 107, 157, 0.1);
+        }
+
+        .arch-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #ffb3d9 0%, #ff8fab 100%);
+            opacity: 0.2;
+        }
+
+        .arch-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 100"><path d="M0,50 Q80,20 160,40 T320,30 L320,0 L0,0 Z" fill="%23ffb3d9" opacity="0.5"/></svg>');
+            background-size: cover;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffd6e8 0%, #ffb3d9 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .photo-placeholder .photo-fallback {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+
+        .photo-placeholder .photo-fallback i {
+            font-size: clamp(50px, 15vw, 80px);
+        }
+
+        .photo-placeholder .photo-fallback span {
+            font-size: clamp(0.7rem, 2vw, 0.85rem);
+            opacity: 0.8;
+        }
+
+        .couple-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            color: #ff6b9d;
+            margin: 20px 0;
+            text-shadow: 2px 2px 8px rgba(255, 107, 157, 0.3);
+            line-height: 1.2;
+            word-wrap: break-word;
+        }
+
+        .guest-label {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            color: #666;
+            margin: 30px 0 10px;
+        }
+
+        .guest-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2rem, 6vw, 2.8rem);
+            color: #ff8fab;
+            line-height: 1.3;
+        }
+
+        .tropical-decorations {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .palm-leaf {
+            position: absolute;
+            font-size: clamp(80px, 20vw, 120px);
+            opacity: 0.3;
+            animation: sway 3s ease-in-out infinite;
+        }
+
+        .palm-leaf.left {
+            left: -20px;
+            bottom: 100px;
+            transform: rotate(-30deg);
+        }
+
+        .palm-leaf.right {
+            right: -20px;
+            bottom: 150px;
+            transform: rotate(30deg);
+            animation-delay: 1.5s;
+        }
+
+        .flower {
+            position: absolute;
+            font-size: clamp(40px, 10vw, 60px);
+            opacity: 0.4;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .flower.top-left {
+            top: 50px;
+            left: 30px;
+        }
+
+        .flower.top-right {
+            top: 80px;
+            right: 40px;
+            animation-delay: 2s;
+        }
+
+        /* Salam Section */
+        #salam {
+            background: linear-gradient(180deg, #fff5f9 0%, #ffeef8 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><path d="M0,200 Q300,150 600,200 T1200,180 L1200,800 L0,800 Z" fill="%23ffd6e8" opacity="0.4"/></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .salam-content {
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+            animation: fadeIn 1s ease-out;
+            padding: 0 15px;
+        }
+
+        .section-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3rem, 10vw, 4.5rem);
+            color: #ff6b9d;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 8px rgba(255, 107, 157, 0.2);
+            line-height: 1.2;
+        }
+
+        .salam-text {
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+            line-height: 2;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .salam-text p {
+            margin-bottom: 20px;
+        }
+
+        .bismillah {
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            color: #ff8fab;
+            margin-bottom: 30px;
+            font-family: 'Traditional Arabic', 'Great Vibes', serif;
+            line-height: 1.6;
+        }
+
+        /* Doa Section */
+        #doa {
+            background: linear-gradient(180deg, #ffeef8 0%, #ffd6e8 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><path d="M0,0 L1200,0 L1200,400 Q900,350 600,400 T0,380 Z" fill="%23ffb3d9" opacity="0.3"/><circle cx="200" cy="600" r="150" fill="%23ff8fab" opacity="0.15"/><circle cx="1000" cy="500" r="200" fill="%23ffc2e0" opacity="0.15"/></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .doa-content {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            animation: fadeInUp 1s ease-out;
+            padding: 0 15px;
+        }
+
+        .doa-text {
+            background: rgba(255,255,255,0.85);
+            padding: clamp(25px, 5vw, 40px);
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(255, 107, 157, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 107, 157, 0.1);
+        }
+
+        .doa-arabic {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            color: #ff6b9d;
+            margin-bottom: 20px;
+            line-height: 2.5;
+            font-family: 'Traditional Arabic', 'Amiri', serif;
+            direction: rtl;
+            word-wrap: break-word;
+        }
+
+        .doa-translation {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            color: #666;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .garden-decoration {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300"><path d="M0,300 Q100,250 200,280 T400,260 T600,270 T800,250 T1000,280 T1200,260 L1200,300 Z" fill="%23ff8fab" opacity="0.3"/><circle cx="150" cy="200" r="40" fill="%23ff6b9d" opacity="0.3"/><circle cx="350" cy="220" r="35" fill="%23ffb3d9" opacity="0.4"/><circle cx="550" cy="210" r="45" fill="%23ff8fab" opacity="0.3"/><circle cx="750" cy="230" r="38" fill="%23ffc2e0" opacity="0.4"/><circle cx="950" cy="215" r="42" fill="%23ff6b9d" opacity="0.3"/><circle cx="1100" cy="225" r="36" fill="%23ffb3d9" opacity="0.35"/></svg>');
+            background-size: cover;
+            pointer-events: none;
+        }
+
+        /* Acara Section */
+        #acara {
+            background: linear-gradient(180deg, #ffd6e8 0%, #ffb3d9 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><path d="M0,100 Q300,50 600,100 T1200,80 L1200,800 L0,800 Z" fill="%23ffc2e0" opacity="0.4"/></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .acara-content {
+            text-align: center;
+            max-width: 900px;
+            width: 100%;
+            animation: fadeInUp 1s ease-out;
+            padding: 0 15px;
+        }
+
+        .event-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            gap: clamp(15px, 3vw, 30px);
+            margin-top: 40px;
+            justify-items: center;
+        }
+
+        .event-cards .event-card {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .event-card {
+            background: rgba(255,255,255,0.95);
+            padding: clamp(25px, 5vw, 40px) clamp(20px, 4vw, 30px);
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(255, 107, 157, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 107, 157, 0.1);
+        }
+
+        .event-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(255, 107, 157, 0.3);
+        }
+
+        .event-icon {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            color: #ff6b9d;
+            margin-bottom: 20px;
+        }
+
+        .event-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2rem, 6vw, 2.8rem);
+            color: #ff8fab;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .event-detail {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
+        .event-detail strong {
+            color: #ff6b9d;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .map-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 30px);
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: clamp(0.85rem, 2.5vw, 1rem);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+        }
+
+        .map-button:hover {
+            background: linear-gradient(135deg, #ff5a8c, #ff7a9a);
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.5);
+        }
+
+        /* Countdown Timer */
+        .countdown-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .countdown-item {
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            padding: 15px 10px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .countdown-number {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 600;
+            color: white;
+            line-height: 1;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .countdown-label {
+            font-size: clamp(0.7rem, 2vw, 0.85rem);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        .countdown-date {
+            text-align: center;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            color: #ff6b9d;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.98);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            padding: 10px 0;
+            padding-bottom: max(10px, env(safe-area-inset-bottom));
+            box-shadow: 0 -5px 25px rgba(255, 107, 157, 0.15);
+            display: flex;
+            justify-content: space-around;
+            z-index: 1000;
+            border-top: 2px solid rgba(255, 107, 157, 0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #999;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 5px 8px;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .nav-item.active {
+            color: #ff6b9d;
+        }
+
+        .nav-item i {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 3px;
+        }
+
+        .nav-item span {
+            font-size: clamp(0.65rem, 2vw, 0.75rem);
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                transform: rotate(-30deg);
+            }
+            50% {
+                transform: rotate(-25deg);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 100px;
+            right: clamp(10px, 2vw, 20px);
+            width: clamp(40px, 8vw, 50px);
+            height: clamp(40px, 8vw, 50px);
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 998;
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+            border: none;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            background: linear-gradient(135deg, #ff5a8c, #ff7a9a);
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.6);
+        }
+
+        /* ==================== */
+        /* RESPONSIVE BREAKPOINTS */
+        /* ==================== */
+
+        /* Extra small devices (phones, < 480px) */
+        @media (max-width: 479px) {
+            .section {
+                padding: 60px 15px 90px;
+            }
+
+            .arch-frame {
+                width: 78vw;
+                height: 78vw;
+                padding: 12px;
+            }
+
+            .palm-leaf {
+                display: none;
+            }
+
+            .flower {
+                font-size: 35px;
+            }
+
+            .scroll-top {
+                bottom: 90px;
+                right: 8px;
+                width: 38px;
+                height: 38px;
+            }
+
+            .bottom-nav {
+                padding: 8px 0;
+                padding-bottom: max(8px, env(safe-area-inset-bottom));
+            }
+
+            .nav-item span {
+                font-size: 0.6rem;
+            }
+
+            .nav-item i {
+                font-size: 1.1rem;
+            }
+
+            .doa-text {
+                padding: 20px 15px;
+            }
+
+            .event-card {
+                padding: 20px 15px;
+            }
+
+            .countdown-container {
+                gap: 8px;
+            }
+
+            .countdown-item {
+                padding: 12px 8px;
+            }
+
+            .countdown-number {
+                font-size: 1.5rem;
+            }
+
+            .countdown-label {
+                font-size: 0.65rem;
+            }
+        }
+
+        /* Small devices (phones, 480px - 767px) */
+        @media (min-width: 480px) and (max-width: 767px) {
+            .arch-frame {
+                width: 280px;
+                height: 280px;
+            }
+        }
+
+        /* Medium devices (tablets, 768px - 1023px) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .section {
+                padding: 80px 40px 100px;
+            }
+
+            .arch-frame {
+                width: 300px;
+                height: 300px;
+            }
+
+            .event-cards {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                justify-items: center;
+            }
+        }
+
+        /* Large devices (desktops, 1024px - 1439px) */
+        @media (min-width: 1024px) and (max-width: 1439px) {
+            .section {
+                padding: 100px 60px;
+            }
+
+            .event-cards {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                justify-items: center;
+            }
+        }
+
+        /* Extra large devices (large desktops, 1440px+) */
+        @media (min-width: 1440px) {
+            .section {
+                padding: 120px 80px;
+            }
+
+            .opening-content {
+                max-width: 700px;
+            }
+
+            .salam-content {
+                max-width: 800px;
+            }
+
+            .doa-content {
+                max-width: 900px;
+            }
+
+            .acara-content {
+                max-width: 1000px;
+            }
+
+            .event-cards {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                justify-items: center;
+                max-width: 800px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* Landscape orientation on mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .section {
+                min-height: auto;
+                padding: 40px 20px 80px;
+            }
+
+            .arch-frame {
+                width: 200px;
+                height: 200px;
+                margin-bottom: 15px;
+            }
+
+            .couple-names {
+                margin: 10px 0;
+            }
+
+            .guest-label {
+                margin: 15px 0 5px;
+            }
+
+            .section-title {
+                margin-bottom: 20px;
+            }
+
+            .palm-leaf, .flower {
+                display: none;
+            }
+        }
+
+        /* Very small devices (< 360px) */
+        @media (max-width: 359px) {
+            .nav-item span {
+                font-size: 0.55rem;
+            }
+
+            .couple-names {
+                font-size: 2rem;
+            }
+
+            .guest-name {
+                font-size: 1.6rem;
+            }
+
+            .arch-frame {
+                width: 70vw;
+                height: 70vw;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .bottom-nav, .scroll-top {
+                display: none !important;
+            }
+
+            .section {
+                min-height: auto;
+                page-break-inside: avoid;
+                padding: 40px 20px;
+            }
+
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+        /* High DPI / Retina displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .arch-frame, .event-card, .doa-text {
+                box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #2d1b2e 0%, #3d2538 50%, #2d1b2e 100%);
+            }
+
+            .bottom-nav {
+                background: rgba(45, 27, 46, 0.98);
+                border-top: 2px solid rgba(255, 107, 157, 0.2);
+            }
+
+            .nav-item {
+                color: #888;
+            }
+
+            .nav-item.active {
+                color: #ff8fab;
+            }
+
+            .event-card {
+                background: rgba(61, 37, 56, 0.9);
+                border: 2px solid rgba(255, 107, 157, 0.2);
+            }
+
+            .event-detail {
+                color: #ccc;
+            }
+
+            .doa-text {
+                background: rgba(61, 37, 56, 0.85);
+                border: 2px solid rgba(255, 107, 157, 0.2);
+            }
+
+            .doa-translation {
+                color: #bbb;
+            }
+
+            .salam-text {
+                color: #ccc;
+            }
+
+            .guest-label {
+                color: #ccc;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            html {
+                scroll-behavior: auto;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .event-card:hover {
+                transform: none;
+            }
+
+            .map-button:hover {
+                transform: none;
+            }
+
+            .map-button:active {
+                transform: scale(0.95);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Music Player -->
+    <button class="music-player" id="musicPlayer" onclick="toggleMusic()" aria-label="Play/Pause Music">
+        <i class="fas fa-music"></i>
+    </button>
+
+    <!-- Auto-scroll Button -->
+    <button class="autoscroll-btn" id="autoscrollBtn" onclick="toggleAutoscroll()" aria-label="Auto Scroll">
+        <i class="fas fa-arrow-down"></i>
+    </button>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Opening Section -->
+    <section id="opening" class="section">
+        <div class="tropical-decorations">
+            <div class="palm-leaf left">🌴</div>
+            <div class="palm-leaf right">🌴</div>
+            <div class="flower top-left">🌸</div>
+            <div class="flower top-right">🌺</div>
+        </div>
+        
+        <div class="opening-content">
+            <div class="arch-frame">
+                <div class="arch-decoration"></div>
+                <div class="photo-placeholder">
+                    <img src="Foto.jpeg" alt="Foto Mempelai" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="photo-fallback" style="display:none;">
+                        <i class="fas fa-camera"></i>
+                        <span>Ganti dengan foto mempelai</span>
+                    </div>
+                </div>
+            </div>
+            
+            <h1 class="couple-names">Daffa & Refa</h1>
+            
+            <p class="guest-label">Kepada</p>
+            <p class="guest-name">Bapak/Ibu/Saudara/i</p>
+        </div>
+    </section>
+
+    <!-- Salam Section -->
+    <section id="salam" class="section">
+        <div class="salam-content">
+            <h2 class="section-title">Salam</h2>
+            
+            <div class="bismillah">بسم الله الرحمن الرحيم</div>
+            
+            <div class="salam-text">
+                <p>Assalamu'alaikum Warahmatullahi Wabarakatuh</p>
+                
+                <p>Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.</p>
+                
+                <p>Semoga kehadiran Bapak/Ibu/Saudara/i menjadi keberkahan dan kebahagiaan bagi kami.</p>
+                
+                <p>Wassalamu'alaikum Warahmatullahi Wabarakatuh</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Doa Syukur Section -->
+    <section id="doa" class="section">
+        <div class="doa-content">
+            <h2 class="section-title">Doa Syukur</h2>
+
+            <div class="doa-text">
+                <div class="doa-arabic">
+                    فَتَبَسَّمَ ضَاحِكًا مِّن قَوْلِهَا وَقَالَ رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ وَأَدْخِلْنِي بِرَحْمَتِكَ فِي عِبَادِكَ الصَّالِحِينَ
+                </div>
+
+                <div class="doa-translation">
+                   'Ya Tuhanku, berilah aku ilham untuk tetap mensyukuri nikmat-Mu yang telah Engkau anugerahkan kepadaku dan kepada dua orang ibu bapakku, dan untuk mengerjakan amal saleh yang Engkau ridhai; dan masukkanlah aku dengan rahmat-Mu ke dalam golongan hamba-hamba-Mu yang saleh.'"
+                    <br><br>
+                    <strong>QS. An-Naml: 19</strong>
+                </div>
+            </div>
+        </div>
+        
+        <div class="garden-decoration"></div>
+    </section>
+
+    <!-- Acara Section -->
+    <section id="acara" class="section">
+        <div class="acara-content">
+            <h2 class="section-title">Acara</h2>
+            
+            <div class="event-cards">
+                <div class="event-card">
+                    <div class="event-icon">
+                        <i class="fas fa-champagne-glasses"></i>
+                    </div>
+                    <h3 class="event-title">Tasyakur</h3>
+                    
+                    <div class="countdown-date">
+                        <div id="countdownDate">Sabtu, 21 November 2026</div>
+                     
+                    </div>
+                    
+                    <div class="countdown-container" id="countdown">
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="days">00</div>
+                            <div class="countdown-label">Hari</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="hours">00</div>
+                            <div class="countdown-label">Jam</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="minutes">00</div>
+                            <div class="countdown-label">Menit</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="seconds">00</div>
+                            <div class="countdown-label">Detik</div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-detail">
+                        <strong>Tempat</strong>
+                        Kp. Citundun Girang RT-25 RW-04, Desa Banjarsari, Kec. Warunggunung, Lebak, Banten.
+                        
+                    </div>
+                    <a href="https://maps.app.goo.gl/wukAE1ioDrUTcQHt8?g_st=ac" target="_blank" class="map-button">
+                        <i class="fas fa-map-marker-alt"></i> Lihat Lokasi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#opening" class="nav-item active" data-section="opening">
+            <i class="fas fa-home"></i>
+            <span>Opening</span>
+        </a>
+        <a href="#salam" class="nav-item" data-section="salam">
+            <i class="fas fa-hands-praying"></i>
+            <span>Salam</span>
+        </a>
+        <a href="#doa" class="nav-item" data-section="doa">
+            <i class="fas fa-star"></i>
+            <span>Doa Syukur</span>
+        </a>
+        <a href="#acara" class="nav-item" data-section="acara">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Acara</span>
+        </a>
+    </nav>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" onclick="scrollToTop()" aria-label="Kembali ke atas">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleEmojis = ['🌸', '🌺', '💮', '🏵️', '✿', '❀', '💕', '💖'];
+            const particleCount = 15;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Music player functionality
+        let isMusicPlaying = false;
+        const bgMusic = document.getElementById('bgMusic');
+        const musicPlayer = document.getElementById('musicPlayer');
+
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicPlayer.classList.remove('playing');
+                musicPlayer.innerHTML = '<i class="fas fa-music"></i>';
+            } else {
+                bgMusic.play().catch(() => {
+                    console.log('Autoplay blocked - user interaction required');
+                });
+                musicPlayer.classList.add('playing');
+                musicPlayer.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        // Auto-scroll functionality
+        let isAutoScrolling = false;
+        let autoScrollInterval = null;
+        const autoscrollBtn = document.getElementById('autoscrollBtn');
+
+        function toggleAutoscroll() {
+            if (isAutoScrolling) {
+                stopAutoScroll();
+            } else {
+                startAutoScroll();
+            }
+        }
+
+        function startAutoScroll() {
+            isAutoScrolling = true;
+            autoscrollBtn.classList.add('active');
+            autoscrollBtn.innerHTML = '<i class="fas fa-pause"></i>';
+
+            autoScrollInterval = setInterval(() => {
+                window.scrollBy({
+                    top: 1,
+                    behavior: 'auto'
+                });
+
+                // Stop when reaching the bottom
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10) {
+                    stopAutoScroll();
+                }
+            }, 30);
+        }
+
+        function stopAutoScroll() {
+            isAutoScrolling = false;
+            autoscrollBtn.classList.remove('active');
+            autoscrollBtn.innerHTML = '<i class="fas fa-arrow-down"></i>';
+
+            if (autoScrollInterval) {
+                clearInterval(autoScrollInterval);
+                autoScrollInterval = null;
+            }
+        }
+
+        // Stop auto-scroll when user manually scrolls
+        window.addEventListener('wheel', () => {
+            if (isAutoScrolling) {
+                stopAutoScroll();
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', () => {
+            if (isAutoScrolling) {
+                stopAutoScroll();
+            }
+        }, { passive: true });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const sectionId = this.getAttribute('data-section');
+                const section = document.getElementById(sectionId);
+                
+                if (section) {
+                    const navHeight = document.querySelector('.bottom-nav').offsetHeight;
+                    const sectionTop = section.offsetTop - navHeight;
+                    
+                    window.scrollTo({
+                        top: sectionTop,
+                        behavior: 'smooth'
+                    });
+                    
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Update active nav on scroll
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const sections = document.querySelectorAll('.section');
+                const navItems = document.querySelectorAll('.nav-item');
+                const scrollTop = document.querySelector('.scroll-top');
+                const navHeight = document.querySelector('.bottom-nav').offsetHeight;
+
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - navHeight - 100;
+                    
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('data-section') === current) {
+                        item.classList.add('active');
+                    }
+                });
+                
+                if (window.scrollY > 300) {
+                    scrollTop.classList.add('visible');
+                } else {
+                    scrollTop.classList.remove('visible');
+                }
+            }, 50);
+        }, { passive: true });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease-out';
+            observer.observe(section);
+        });
+
+        document.getElementById('opening').style.opacity = '1';
+        document.getElementById('opening').style.transform = 'translateY(0)';
+
+        // Handle viewport height on mobile (address bar hide/show)
+        function setVH() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        setVH();
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', setVH);
+
+        // Initialize particles on page load
+        createParticles();
+
+        // Countdown Timer
+        function updateCountdown() {
+            // Set tanggal acara (ubah sesuai kebutuhan)
+            // Format: Tahun-Bulan-Tanggal Jam:Menit:Detik
+            const eventDate = new Date('2026-11-21T11:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; color: #ff6b9d; font-size: 1.5rem; font-weight: 600;">Acara Telah Tiba!</div>`;
+                document.getElementById('countdownDate').style.display = 'none';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        // Update countdown setiap detik
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
